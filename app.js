@@ -21,7 +21,7 @@ function errorHandler(e) {
 
 function startSearch(media) {
   var stream = t.stream('statuses/filter', {track: 'completely false'});
-
+  console.log('Searching ...');
   stream.on('data', tweetReply);
   stream.on('error', function(error) {
     throw error;
@@ -30,7 +30,9 @@ function startSearch(media) {
   function tweetReply(tweet) {
   	var userAt = tweet.user.screen_name;
   	console.log('@' + userAt);
-  	if (userAt !== 'MattBarton_') return rsvp.Promise.resolve();
+  	var regex = /completely false/i;
+
+  	if (!regex.test(tweet.text)) return rsvp.Promise.resolve();
 
     var status = {
       status: '@' + userAt,
