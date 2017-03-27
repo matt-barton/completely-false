@@ -5,6 +5,7 @@ var twitter = require('twitter'),
   secret = require('./secret');
 
 var t = new twitter(secret);
+var dev = process.env.NODE_ENV === 'development';
 
 uploadCaine()
   .then(startSearch)
@@ -20,12 +21,11 @@ function errorHandler(e) {
 }
 
 function startSearch(media) {
-  var stream = t.stream('statuses/filter', {track: 'completely false'});
+  t.stream('statuses/filter', {track: 'completely false'})
+    .on('data', tweetReply)
+    .on('error', errorHandler);
+
   console.log('Searching ...');
-  stream.on('data', tweetReply);
-  stream.on('error', function(error) {
-    throw error;
-  });
 
   function tweetReply(tweet) {
   	var userAt = tweet.user.screen_name;
@@ -34,15 +34,20 @@ function startSearch(media) {
   	if (!regex.test(tweet.text)) return rsvp.Promise.resolve();
   	if (tweet.retweeted_status) return rsvp.Promise.resolve();
   	
-  	console.log('@' + userAt);
-
     var status = {
       status: '@' + userAt,
       media_ids: media.media_id_string,
-      in_reply_to_status_id: tweet.id_str
+      in_reply_to_status_id: tweet.id_str,
+      in_reply_to_screen_name: tweet.user.screen_name
     }
 
-    return t.post('statuses/update', status);
+    return t.post('statuses/update', status)
+      .then(logTweet)
+      .catch(errorHandler);
+  }
+
+  function logTweet (tweet) {
+    console.log(tweet);
   }
 }
 
