@@ -17,6 +17,8 @@ function uploadCaine() {
 }
 
 function errorHandler(e) {
+  console.log('in error handler');
+  console.error(e);
   console.error(e.stack);
 }
 
@@ -48,8 +50,11 @@ console.log(status);
       .catch(errorHandler);
   }
 
-  function logTweet (tweet) {
+  function logTweet (e, tweet) {
+    console.log('in log tweet');
+    console.log(e);
     console.log(tweet);
+
   }
 }
 
