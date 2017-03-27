@@ -1,14 +1,8 @@
 var twitter = require('twitter'),
   fs = require('fs'),
   rsvp = require('rsvp'),
-  denodeify = rsvp.denodeify;
-
-var secret = {
-  consumer_key: 'OGDvXyIoJsiJUowgkbS9DrkUz',
-  consumer_secret: 'ZnKCumRPvNe7dkv4TulRgAun578nRyKRmbURMyA53s0nSG9I2y',
-  access_token_key: '846354299395457025-3cQuG4wrWirwVrwPirtK3nahWUQN9Kt',
-  access_token_secret: 'Pxe0R1T8uxoI7xQij3EOEZ0iohbiSMUglyFap8MQyXG1l'
-};
+  denodeify = rsvp.denodeify,
+  secret = require('./secret');
 
 var t = new twitter(secret);
 
