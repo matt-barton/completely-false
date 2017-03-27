@@ -29,10 +29,12 @@ function startSearch(media) {
 
   function tweetReply(tweet) {
   	var userAt = tweet.user.screen_name;
-  	console.log('@' + userAt);
   	var regex = /completely false/i;
 
   	if (!regex.test(tweet.text)) return rsvp.Promise.resolve();
+  	if (tweet.retweeted_status) return rsvp.Promise.resolve();
+  	
+  	console.log('@' + userAt);
 
     var status = {
       status: '@' + userAt,
