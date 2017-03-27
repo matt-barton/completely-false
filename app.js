@@ -41,6 +41,8 @@ function startSearch(media) {
       in_reply_to_screen_name: tweet.user.screen_name
     }
 
+console.log(status);
+
     return t.post('statuses/update', status)
       .then(logTweet)
       .catch(errorHandler);
