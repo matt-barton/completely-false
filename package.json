@@ -6,8 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+    "keywords": [
+    "locked",
+    "in",
+    "attick"
+  ],
   "author": "Matt Barton",
   "license": "ISC",
+  "engines": {
+    "node": "4.7.2"
+  },
   "dependencies": {
     "rsvp": "^3.5.0",
     "twitter": "^1.7.0"
