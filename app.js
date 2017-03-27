@@ -29,6 +29,7 @@ function startSearch(media) {
 
   function tweetReply(tweet) {
   	var userAt = tweet.user.screen_name;
+  	console.log('@' + userAt);
   	if (userAt !== 'MattBarton_') return rsvp.Promise.resolve();
 
     var status = {
