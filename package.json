@@ -1,0 +1,15 @@
+{
+  "name": "completelyfalse",
+  "version": "1.0.0",
+  "description": "Stuck in attick",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Barton",
+  "license": "ISC",
+  "dependencies": {
+    "rsvp": "^3.5.0",
+    "twitter": "^1.7.0"
+  }
+}
