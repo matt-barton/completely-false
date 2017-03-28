@@ -23,9 +23,7 @@ function uploadCaine() {
 }
 
 function errorHandler(e) {
-  console.log('in error handler');
-  console.error(e);
-  console.error(e.stack);
+  console.error(e.stack || e);
 }
 
 function startSearch(media) {
@@ -49,18 +47,13 @@ function startSearch(media) {
       in_reply_to_screen_name: tweet.user.screen_name
     }
 
-console.log(status);
-
     return t.post('statuses/update', status)
       .then(logTweet)
       .catch(errorHandler);
   }
 
-  function logTweet (e, tweet) {
-    console.log('in log tweet');
-    console.log(e);
+  function logTweet (tweet) {
     console.log(tweet);
-
   }
 }
 
@@ -69,7 +62,7 @@ function randomStatus () {
   var statuses = [
     'Locked in attick',
     'Completely false',
-    'Please excuse repetitive posts from this account, I have to post boring things every now and again, because Twiter Rules',
+    'Please excuse repetitive posts from this account, I have to post boring things every now and again, because Twitter Rules',
     'Please give blood regularly, if you can. Call 0300 123 2323 for an appointment. @GiveBloodNHS',
     'You could save someone\'s life. Become a stem cell donor. @DKMS_uk',
     'Support the arts. Without art, what\'s the point? @artsemergency'
