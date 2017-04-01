@@ -4,7 +4,7 @@ var twitter = require('twitter'),
   denodeify = rsvp.denodeify,
   secret = require('./secret');
 
-var t = new twitter(secret), fails = 10;
+var t = new twitter(secret), fails = 0;
 var dev = process.env.NODE_ENV === 'development';
 
 start();
