@@ -7,10 +7,14 @@ var twitter = require('twitter'),
 var t = new twitter(secret);
 var dev = process.env.NODE_ENV === 'development';
 
-heartbeat()
-  .then(uploadCaine)
-  .then(startSearch)
-  .catch(errorHandler);
+start();
+
+function start() {
+  heartbeat()
+    .then(uploadCaine)
+    .then(startSearch)
+    .catch(errorHandler);
+  }
 
 function heartbeat () {
   setTimeout(heartbeat, 1000 * 60 * 20);
@@ -24,6 +28,7 @@ function uploadCaine() {
 
 function errorHandler(e) {
   console.error(e.stack || e);
+  start();
 }
 
 function startSearch(media) {
@@ -62,7 +67,7 @@ function randomStatus () {
   var statuses = [
     'Locked in attick',
     'Completely false',
-    'Please excuse repetitive posts from this account, I have to post boring things every now and again, because Twitter Rules',
+    'Please excuse repetitive posts from this account, I have to post boring things every now and again, because of Twitter Rules',
     'Please give blood regularly, if you can. Call 0300 123 2323 for an appointment. @GiveBloodNHS',
     'You could save someone\'s life. Become a stem cell donor. @DKMS_uk',
     'Support the arts. Without art, what\'s the point? @artsemergency'
