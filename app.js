@@ -55,8 +55,8 @@ function startSearch() {
       return t.post('statuses/update', status)
         .then(logTweet)
         .catch(errorHandler);
-    }
-  });
+    });
+  };
 
   function logTweet (tweet) {
     console.log(tweet);
