@@ -4,7 +4,7 @@ var twitter = require('twitter'),
   denodeify = rsvp.denodeify,
   secret = require('./secret');
 
-var t = new twitter(secret);
+var t = new twitter(secret), fails = 10;
 var dev = process.env.NODE_ENV === 'development';
 
 start();
@@ -28,7 +28,7 @@ function uploadCaine() {
 
 function errorHandler(e) {
   console.error(e.stack || e);
-  start();
+  if (++fails < 10) start();
 }
 
 function startSearch(media) {
