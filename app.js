@@ -11,7 +11,6 @@ start();
 
 function start() {
   heartbeat()
-    .then(uploadCaine)
     .then(startSearch)
     .catch(errorHandler);
   }
@@ -31,7 +30,7 @@ function errorHandler(e) {
   if (++fails < 10) start();
 }
 
-function startSearch(media) {
+function startSearch() {
   t.stream('statuses/filter', { track: 'completely false' })
     .on('data', tweetReply)
     .on('error', errorHandler);
@@ -44,18 +43,20 @@ function startSearch(media) {
 
   	if (!regex.test(tweet.text)) return rsvp.Promise.resolve();
   	if (tweet.retweeted_status) return rsvp.Promise.resolve();
-  	
-    var status = {
-      status: '@' + userAt,
-      media_ids: media.media_id_string,
-      in_reply_to_status_id: tweet.id_str,
-      in_reply_to_screen_name: tweet.user.screen_name
-    }
+    	
+    return uploadCaine().then(function(media) {
+      var status = {
+        status: '@' + userAt,
+        media_ids: media.media_id_string,
+        in_reply_to_status_id: tweet.id_str,
+        in_reply_to_screen_name: tweet.user.screen_name
+      }
 
-    return t.post('statuses/update', status)
-      .then(logTweet)
-      .catch(errorHandler);
-  }
+      return t.post('statuses/update', status)
+        .then(logTweet)
+        .catch(errorHandler);
+    }
+  });
 
   function logTweet (tweet) {
     console.log(tweet);
