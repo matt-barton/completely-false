@@ -32,12 +32,14 @@ function startSearch (media) {
   console.log('Searching ...');
 
   function tweetReply(tweet) {
-    var userAt = tweet.user.screen_name;
-  	var regex = /completely false/i;
 
-    if (userAt === 'C0mpletelyFalse') return rsvp.Promise.resolve();
-  	if (!regex.test(tweet.text)) return rsvp.Promise.resolve();
-  	if (tweet.retweeted_status) return rsvp.Promise.resolve();
+    if (tweet.retweeted_status) return rsvp.Promise.resolve(); // exit if it's a retweet
+
+    var userAt = tweet.user.screen_name;
+    if (userAt === 'C0mpletelyFalse') return rsvp.Promise.resolve(); // exit if I sent it myself
+
+  	var regex = /completely false/i;
+  	if (!regex.test(tweet.text)) return rsvp.Promise.resolve(); // exit if it doesn't conatain the exact phrase 
     	
     return buildStatus()
       .then(postStatus)
@@ -59,8 +61,8 @@ function startSearch (media) {
       return t.post('statuses/update', status);
     }
 
-    function logTweet (tweet) {
-      console.log('@' + userAt);
+    function logTweet () {
+      console.log((tweet.user.verified ? '*** ' : '') + '@' + userAt);
     }
   };
 
