@@ -10,16 +10,10 @@ var dev = process.env.NODE_ENV === 'development';
 start();
 
 function start() {
-  heartbeat()
+  uploadCaine()
     .then(startSearch)
     .catch(errorHandler);
   }
-
-function heartbeat () {
-  setTimeout(heartbeat, 1000 * 60 * 20);
-  return t.post('statuses/update', { status: randomStatus() });
-}
-
 function uploadCaine() {
   var caine = fs.readFileSync('./completelyfalse.jpg');
   return t.post('media/upload', { media: caine });
@@ -30,7 +24,7 @@ function errorHandler(e) {
   if (++fails < 10) start();
 }
 
-function startSearch() {
+function startSearch (media) {
   t.stream('statuses/filter', { track: 'completely false' })
     .on('data', tweetReply)
     .on('error', errorHandler);
@@ -38,29 +32,38 @@ function startSearch() {
   console.log('Searching ...');
 
   function tweetReply(tweet) {
-  	var userAt = tweet.user.screen_name;
+    var userAt = tweet.user.screen_name;
   	var regex = /completely false/i;
 
+    if (userAt === 'C0mpletelyFalse') return rsvp.Promise.resolve();
   	if (!regex.test(tweet.text)) return rsvp.Promise.resolve();
   	if (tweet.retweeted_status) return rsvp.Promise.resolve();
     	
-    return uploadCaine().then(function(media) {
-      var status = {
+    return buildStatus()
+      .then(postStatus)
+      .then(logTweet)
+      .catch(errorHandler);
+
+    function buildStatus () {
+      return rsvp.Promise.resolve(Math.random() < 0.25 ? {
         status: '@' + userAt,
         media_ids: media.media_id_string,
         in_reply_to_status_id: tweet.id_str,
         in_reply_to_screen_name: tweet.user.screen_name
-      }
+      } : {
+        status: '"Completely false." https://twitter.com/' + userAt + '/status/' + tweet.id_str,
+      });
+    }
 
-      return t.post('statuses/update', status)
-        .then(logTweet)
-        .catch(errorHandler);
-    });
+    function postStatus (status) {
+      return t.post('statuses/update', status);
+    }
+
+    function logTweet (tweet) {
+      console.log('@' + userAt);
+    }
   };
 
-  function logTweet (tweet) {
-    console.log(tweet);
-  }
 }
 
 function randomStatus () {
