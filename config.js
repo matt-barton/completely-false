@@ -1,5 +1,5 @@
 module.exports = {
-	owner: '@MattBarton_',
+	owner: 'MattBarton_',
 	admins: [],
 	active: false
 };

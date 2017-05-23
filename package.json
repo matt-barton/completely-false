@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
-    "keywords": [
+  "keywords": [
     "locked",
     "in",
     "attick"
@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "rsvp": "^3.5.0",
-    "twitter": "^1.7.0"
+    "twitter": "^1.7.0",
+    "underscore": "^1.8.3"
   }
 }
