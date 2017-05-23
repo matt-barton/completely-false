@@ -1,13 +1,13 @@
-var active = false, self = this;
+var active = false;
 
 module.exports = {
 	owner: 'MattBarton_',
 	admins: [],
-	active: this.active,
+	active: active,
 	deactivate: function deactivate () {
-		self.active = false;
+		active = false;
 	},
 	activate: function activate () {
-		self.active = true;
+		active = true;
 	}
 };
