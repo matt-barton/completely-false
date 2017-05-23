@@ -1,12 +1,15 @@
 var twitter = require('twitter'),
   fs = require('fs'),
   rsvp = require('rsvp'),
-  secret = require('./secret');
+  secret = require('./secret'),
+  config = require('./config'),
+  admin = require('./admin');
 
 var t = new twitter(secret), fails = 0;
 var dev = process.env.NODE_ENV === 'development';
 
-uploadCaine()
+admin.setup()
+  .then(uploadCaine)
   .then(startSearch)
   .catch(errorHandler);
 
@@ -27,6 +30,11 @@ function startSearch (media) {
   console.log('Searching ...');
 
   function tweetReply(tweet) {
+
+    if (!config.active) {
+      console.log('deactive');
+      return rsvp.Promise.resolve(); // exit if we're deactive
+    }
 
     if (tweet.retweeted_status) return rsvp.Promise.resolve(); // exit if it's a retweet
 
