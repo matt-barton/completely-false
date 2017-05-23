@@ -38,12 +38,14 @@ function status (dm) {
 }
 
 function stop (dm) {
-  config.active = false;
+  config.deactivate();
+  console.log(config.active);
   respondOk(dm);
 }
 
 function start (dm) {
-  config.active = true;
+  config.activate();
+  console.log(config.active);
   respondOk(dm);
 }
 
