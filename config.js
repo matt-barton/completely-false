@@ -3,7 +3,9 @@ var active = false;
 module.exports = {
 	owner: 'MattBarton_',
 	admins: [],
-	active: active,
+	active: function () {
+		return active;
+	},
 	deactivate: function deactivate () {
 		active = false;
 	},

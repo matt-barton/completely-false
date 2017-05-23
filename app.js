@@ -31,7 +31,7 @@ function startSearch (media) {
 
   function tweetReply(tweet) {
 
-    if (!config.active) {
+    if (!config.active()) {
       console.log('deactive');
       return rsvp.Promise.resolve(); // exit if we're deactive
     }

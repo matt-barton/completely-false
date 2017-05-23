@@ -34,18 +34,18 @@ var actions = {
 };
 
 function status (dm) {
-  respond(dm.sender.screen_name, config.active ? 'up' : 'down');
+  respond(dm.sender.screen_name, config.active() ? 'up' : 'down');
 }
 
 function stop (dm) {
   config.deactivate();
-  console.log(config.active);
+  console.log(config.active());
   respondOk(dm);
 }
 
 function start (dm) {
   config.activate();
-  console.log(config.active);
+  console.log(config.active());
   respondOk(dm);
 }
 
