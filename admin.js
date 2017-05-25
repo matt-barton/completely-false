@@ -35,7 +35,7 @@ function consumeDM(message) {
   if (!message.direct_message) return; // message is not a dm
   var dm = message.direct_message;
   if (!_(config.admins).contains(dm.sender.screen_name)) return; // dm is not from an admin
-  var action = dm.text.toLower();
+  var action = dm.text.toLowerCase();
   if (actions[action]) actions[action](dm);
 }
 
