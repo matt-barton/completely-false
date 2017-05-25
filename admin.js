@@ -10,6 +10,11 @@ module.exports = {
 };
 
 function setup() {
+  return startAdmin()
+    .then(phoneHome);
+}
+
+function startAdmin() {
   config.admins.push(config.owner);
   return new rsvp.Promise(function (resolve) {
     t.stream('user', { with: 'user' })
@@ -19,11 +24,19 @@ function setup() {
   });
 }
 
+function phoneHome() {
+  return new rsvp.Promise(function (resolve) {
+    respond(config.owner, 'starting up');
+      return resolve();
+    });
+}
+
 function consumeDM(message) {
   if (!message.direct_message) return; // message is not a dm
   var dm = message.direct_message;
   if (!_(config.admins).contains(dm.sender.screen_name)) return; // dm is not from an admin
-  if (actions[dm.text]) actions[dm.text](dm);
+  var action = dm.text.toLower();
+  if (actions[action]) actions[action](dm);
 }
 
 var actions = {
